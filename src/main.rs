@@ -6,7 +6,9 @@ use tracing::{debug, error, info};
 use tracing_subscriber;
 use tracing_subscriber::filter::EnvFilter;
 
-async fn fetch_feed(url: &str) -> Result<feed_rs::model::Feed, Box<dyn std::error::Error + Send + Sync>> {
+async fn fetch_feed(
+    url: &str,
+) -> Result<feed_rs::model::Feed, Box<dyn std::error::Error + Send + Sync>> {
     info!("Fetching feed from: {}", url);
 
     let resp = reqwest::get(url).await?;
@@ -25,7 +27,11 @@ async fn fetch_feed(url: &str) -> Result<feed_rs::model::Feed, Box<dyn std::erro
 async fn fetch_article(url: String) -> Result<String, Box<dyn std::error::Error + Send + Sync>> {
     info!("Fetching article: {}", url);
     let resp = reqwest::get(&url).await?.text().await?;
-    Ok(format!("Article from {} downloaded, size: {} bytes", url, resp.len()))
+    Ok(format!(
+        "Article from {} downloaded, size: {} bytes",
+        url,
+        resp.len()
+    ))
 }
 
 #[tokio::main]
